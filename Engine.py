@@ -1,13 +1,5 @@
 import chess
 
-fen = input("Enter a fen: ")
-#fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-
-#depth = int(input("Depth to search: "))
-depth = 4
-
-board = chess.Board(fen)
-
 def order_moves(board):
     promotions = []
     captures = []
@@ -32,7 +24,7 @@ def evaluate(board,depth):
         return 10000 + depth
     if board.turn == chess.WHITE and board.is_checkmate():
         return -10000 - depth
-    if board.is_game_over() and not board.is_checkmate():
+    if board.is_game_over(claim_draw=True) and not board.is_checkmate():
         return 0
 
     eval = 0
@@ -101,6 +93,3 @@ def search(board,depth):
             beta = min(beta, eval)
     
     return best_move
-
-result = search(board,depth)
-print(result)
